@@ -11,6 +11,7 @@
     "resolveJsonModule": true,
     "types": ["node", "express"],
     "typeRoots": ["./src/types", "./node_modules/@types"],
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*"]
 }

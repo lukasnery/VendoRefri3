@@ -79,19 +79,26 @@ export class ProductService {
   }
 
   async delete(id: string) {
+  const product = await prisma.product.findUnique({
+    where: { id }
+  })
 
-    const product = await prisma.product.findUnique({
-      where: { id }
-    })
-
-    if (!product) {
-      throw new Error("Produto não encontrado")
-    }
-
-    await prisma.product.delete({
-      where: { id }
-    })
-
-    return true
+  if (!product) {
+    throw new Error("Produto não encontrado")
   }
+
+  const linkedOrder = await prisma.order.findFirst({
+    where: { productId: id }
+  })
+
+  if (linkedOrder) {
+    throw new Error("Produto possui pedidos vinculados e não pode ser excluído")
+  }
+
+  await prisma.product.delete({
+    where: { id }
+  })
+
+  return true
+}
 }

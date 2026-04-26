@@ -14,6 +14,7 @@ model User {
   senha     String
   cpf       String   @unique
   createdAt DateTime @default(now())
+  role      String @default("USER")
 
   orders Order[]
 }
